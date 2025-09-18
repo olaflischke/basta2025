@@ -37,6 +37,16 @@ public class UpdateConcurrencyTests
         }
 
 
+        //using (ISession session = factory.OpenSession())
+        //{
+        //    using (ITransaction transaction = session.BeginTransaction())
+        //    {
+        //        // Anweisungen
+        //
+        //
+        //        transaction.Commit();
+        //    }
+        //}
     }
 
 }

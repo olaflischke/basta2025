@@ -148,24 +148,9 @@ public class QueryTests
 
     public static Configuration ConfigureNHibernate()
     {
-        Configuration config = new Configuration();
-
-        config.DataBaseIntegration(x =>
-        {
-            x.ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Chinook;Trusted_Connection=True;";
-            x.Driver<MicrosoftDataSqlClientDriver>();
-            x.Dialect<MsSql2012Dialect>(); 
-            x.IsolationLevel = IsolationLevel.RepeatableRead;
-            x.LogSqlInConsole = true;
-            x.Timeout = 10;
-            x.BatchSize = 10;
-        });
-
-        config.SessionFactory().GenerateStatistics();
-
-        config.AddAssembly("ChinookNHDal"); // Referenz zur Assembly mit den POCOs und dem Mapping
-
-        return config;
+        // Delegation an DAL
+        return NHibernateConfigurator.BuildConfiguration(
+            "Server=(localdb)\\mssqllocaldb;Database=Chinook;Trusted_Connection=True;");
     }
 
 }
