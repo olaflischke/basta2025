@@ -31,7 +31,7 @@ public class QueryTests
 
             foreach (var item in qTracks.Enumerable<Track>())
             {
-                Trace.WriteLine($"{item.Name} - {item.Album.Title}");
+                Console.WriteLine($"{item.Name} - {item.Album.Title}");
             }
 
             Assert.That(qTracks.Enumerable<Track>().Count(), Is.EqualTo(1297));
@@ -52,7 +52,7 @@ public class QueryTests
 
             foreach (var item in qTracks.List<Track>())
             {
-                Trace.WriteLine($"{item.Name} - {item.Album.Title}");
+                Console.WriteLine($"{item.Name} - {item.Album.Title}");
             }
 
             Assert.That(qTracks.List<Track>().Count(), Is.EqualTo(1297));
@@ -73,7 +73,7 @@ public class QueryTests
 
             foreach (var item in qTracks.List<Track>())
             {
-                Trace.WriteLine($"{item.Name} - {item.Album.Title}");
+                Console.WriteLine($"{item.Name} - {item.Album.Title}");
             }
 
             Assert.That(qTracks.List<Track>().Count(), Is.EqualTo(1297));
@@ -95,7 +95,7 @@ public class QueryTests
 
             foreach (var item in qTracks.ToList())
             {
-                Trace.WriteLine($"{item.Name} - {item.Album.Title} - {item.Album.Artist.Name}");
+                Console.WriteLine($"{item.Name} - {item.Album.Title} - {item.Album.Artist.Name}");
             }
 
             Assert.That(qTracks.ToList().Count(), Is.EqualTo(1297));
@@ -118,7 +118,7 @@ public class QueryTests
 
             foreach (var item in qTracks.List<Track>())
             {
-                Trace.WriteLine($"{item.Genre.Name}: {item.Name} - {item.Album.Title}");
+                Console.WriteLine($"{item.Genre.Name}: {item.Name} - {item.Album.Title}");
             }
 
             Assert.That(qTracks.List<Track>().Count(), Is.EqualTo(1297));
@@ -136,9 +136,9 @@ public class QueryTests
         {
             var qGenres = session.Query<Genre>();
 
-            foreach (var item in qGenres)
+            foreach (var item in qGenres.ToList())
             {
-                Trace.WriteLine($"{item.Name}");
+                Console.WriteLine($"{item.Name}");
             }
         }
 
