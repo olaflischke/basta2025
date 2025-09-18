@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Chickens]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Name] NVARCHAR(MAX) NOT NULL, 
+    [Weight] FLOAT NOT NULL
+)
