@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using ChinookDal.Interceptors;
 
 namespace ChinookDal.Model;
 
 // Erzeugt mit:
 // dotnet tool install --global dotnet-ef 
 // dotnet ef dbcontext scaffold 
-//      "server=localhost,14333;database=Chinook;User Id=sa;Password=Geheim#123;TrustServerCertificate=True;" 
+//      "{ConnectionString}" 
 //      Microsoft.EntityFrameworkCore.SqlServer 
 //      -o Model
 
 public partial class ChinookContext : DbContext
 {
+    private readonly bool _enableLoggingInterceptor;
+
     public ChinookContext()
     {
     }
@@ -20,6 +23,17 @@ public partial class ChinookContext : DbContext
     public ChinookContext(DbContextOptions<ChinookContext> options)
         : base(options)
     {
+    }
+
+    /// <summary>
+    /// Konstruktor mit Option zum Aktivieren des LoggingInterceptors
+    /// </summary>
+    /// <param name="options">DbContext-Optionen</param>
+    /// <param name="enableLoggingInterceptor">Wenn true, wird der LoggingInterceptor aktiviert</param>
+    public ChinookContext(DbContextOptions<ChinookContext> options, bool enableLoggingInterceptor)
+        : base(options)
+    {
+        _enableLoggingInterceptor = enableLoggingInterceptor;
     }
 
     public virtual DbSet<Album> Albums { get; set; }
@@ -42,9 +56,16 @@ public partial class ChinookContext : DbContext
 
     public virtual DbSet<Track> Tracks { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("server=localhost,14333;database=Chinook;User Id=sa;Password=Geheim#123;TrustServerCertificate=True;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // LoggingInterceptor hinzufügen, falls aktiviert
+        if (_enableLoggingInterceptor)
+        {
+            optionsBuilder.AddInterceptors(new LoggingInterceptor());
+        }
+        
+        base.OnConfiguring(optionsBuilder);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
